@@ -1,7 +1,9 @@
 import java.applet.*;
 import java.awt.*;
+import java.net.*;
 
 public class BallApplet extends Applet implements Runnable {
+    AudioClip bounce;
     int x_pos=30;
     int y_pos=100;
     int x_speed=1;
@@ -14,6 +16,7 @@ public class BallApplet extends Applet implements Runnable {
 
     public void init() {
         setBackground(Color.blue);
+        bounce=getAudioClip(getCodeBase(),"Sound.wav");
     }
     public void start() {
         Thread th = new Thread(this);
@@ -26,12 +29,15 @@ public class BallApplet extends Applet implements Runnable {
         while(true) {
             //if(x_pos>appletsize_x-radius) {
             //    x_speed=-1;
+            //    bounce.play();
             //}
             if(x_pos>(appletsize_x+radius)) {
                 x_pos=-20;
+                bounce.play();
             }
             //else if(x_pos<radius) {
             //   x_speed+=1;
+            //   bounce.play();
             //}
             x_pos+=x_speed;
             repaint();
