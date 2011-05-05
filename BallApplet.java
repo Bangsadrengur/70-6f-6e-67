@@ -3,6 +3,7 @@ import java.awt.*;
 import java.net.*;
 
 public class BallApplet extends Applet implements Runnable {
+    Image backImage;
     AudioClip bounce;
     int x_pos=30;
     int y_pos=100;
@@ -17,6 +18,7 @@ public class BallApplet extends Applet implements Runnable {
     public void init() {
         setBackground(Color.blue);
         bounce=getAudioClip(getCodeBase(),"Sound.wav");
+        backImage=getImage(getCodeBase(),"Flag2.png");
     }
     public void start() {
         Thread th = new Thread(this);
@@ -51,6 +53,7 @@ public class BallApplet extends Applet implements Runnable {
         }
     }
     public void paint(Graphics g) {
+        g.drawImage(backImage,0,0,this);
         g.setColor(Color.red);
         g.fillOval(x_pos-radius,y_pos-radius,2*radius,2*radius);
     }
