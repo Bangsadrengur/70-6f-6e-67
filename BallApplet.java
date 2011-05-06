@@ -26,6 +26,10 @@ public class BallApplet extends Applet implements Runnable {
     }
     public void stop() {}
     public void destroy() {}
+    public boolean mouseDown(Event e, int x, int y) {
+        x_speed=-(x_speed);
+        return true;
+    }
     public void run() {
         Thread.currentThread().setPriority(Thread.MIN_PRIORITY);
         while(true) {
