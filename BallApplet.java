@@ -26,10 +26,27 @@ public class BallApplet extends Applet implements Runnable {
     }
     public void stop() {}
     public void destroy() {}
+    // Event handling starts
     public boolean mouseDown(Event e, int x, int y) {
         x_speed=-(x_speed);
         return true;
     }
+    public boolean keyDown(Event e,int key) {
+        if(key==Event.LEFT) {
+            x_speed=-1;
+        }
+        else if(key==Event.RIGHT) {
+            x_speed=1;
+        }
+        else if(key==32) {
+            x_speed=0;
+        }
+        else {
+            System.out.println("Character: " + (char)key + " Integer Value: " + key);
+        }
+        return true;
+    }
+    // Event hanlding ends
     public void run() {
         Thread.currentThread().setPriority(Thread.MIN_PRIORITY);
         while(true) {
