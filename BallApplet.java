@@ -1,13 +1,15 @@
 import java.applet.*;
 import java.awt.*;
 import java.net.*;
+import java.awt.event.*;
 
-public class BallApplet extends Applet implements Runnable {
+public class BallApplet extends Applet implements Runnable, MouseListener, KeyListener {
     Image backImage;
     AudioClip bounce;
     int x_pos=30;
     int y_pos=100;
     int x_speed=1;
+    int last_speed;
     int radius=20;
     int appletsize_x=300;
     int appletsize_y=300;
@@ -16,6 +18,8 @@ public class BallApplet extends Applet implements Runnable {
     private Graphics dbg;
 
     public void init() {
+        addKeyListener(this);
+        addMouseListener(this);
         setBackground(Color.blue);
         bounce=getAudioClip(getCodeBase(),"Sound.wav");
         backImage=getImage(getCodeBase(),"Flag2.png");
@@ -26,27 +30,35 @@ public class BallApplet extends Applet implements Runnable {
     }
     public void stop() {}
     public void destroy() {}
-    // Event handling starts
-    public boolean mouseDown(Event e, int x, int y) {
+    // Valid mouse event listener starts
+    public void mouseClicked(MouseEvent e) {
         x_speed=-(x_speed);
-        return true;
     }
-    public boolean keyDown(Event e,int key) {
-        if(key==Event.LEFT) {
+    public void mouseEntered(MouseEvent e) {}
+    public void mouseExited(MouseEvent e) {}
+    public void mousePressed(MouseEvent e) {}
+    public void mouseReleased(MouseEvent e) {}
+    // Valid mouse event listener ends
+    // Valid key event listener starts
+    public void keyPressed(KeyEvent e) {
+        if(e.getKeyCode()==e.VK_LEFT) {
             x_speed=-1;
         }
-        else if(key==Event.RIGHT) {
+        else if(e.getKeyCode()==e.VK_RIGHT) {
             x_speed=1;
         }
-        else if(key==32) {
-            x_speed=0;
+        else if(e.getKeyChar()==32) {
+            if(x_speed!=0) {
+                last_speed=x_speed;
+                x_speed=0;
+            } 
+            else {
+                x_speed=last_speed;
+            }
         }
-        else {
-            System.out.println("Character: " + (char)key + " Integer Value: " + key);
-        }
-        return true;
     }
-    // Event hanlding ends
+    public void keyReleased(KeyEvent e) {}
+    public void keyTyped(KeyEvent e) {}
     public void run() {
         Thread.currentThread().setPriority(Thread.MIN_PRIORITY);
         while(true) {
@@ -56,6 +68,10 @@ public class BallApplet extends Applet implements Runnable {
             //}
             if(x_pos>(appletsize_x+radius)) {
                 x_pos=-20;
+                bounce.play();
+            }
+            if(x_pos<(-radius)) {
+                x_pos=appletsize_x+20;
                 bounce.play();
             }
             //else if(x_pos<radius) {
