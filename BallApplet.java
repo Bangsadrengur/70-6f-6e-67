@@ -93,7 +93,8 @@ public class BallApplet extends Applet implements Runnable, MouseListener, KeyLi
         g.drawImage(backImage,0,0,this);
         g.setColor(Color.red);
         g.fillOval(x_pos-radius,y_pos-radius,2*radius,2*radius);
-        g.drawString("Smellið á skjá til að taka stjórn á kúlu!",10,10);
+        g.setColor(Color,white);
+        g.drawString("Smellið á skjá til að taka stjórn á kúlu!",20,20);
     }
     public void update(Graphics g) {
         if(dbImage==null) {
