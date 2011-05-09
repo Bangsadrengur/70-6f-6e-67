@@ -17,6 +17,8 @@ public class BallApplet extends Applet implements Runnable, MouseListener, KeyLi
     private Image dbImage;
     private Graphics dbg;
 
+    Thread th;
+
     public void init() {
         addKeyListener(this);
         addMouseListener(this);
@@ -25,10 +27,12 @@ public class BallApplet extends Applet implements Runnable, MouseListener, KeyLi
         backImage=getImage(getCodeBase(),"Flag2.png");
     }
     public void start() {
-        Thread th = new Thread(this);
+        th = new Thread(this);
         th.start();
     }
-    public void stop() {}
+    public void stop() {
+        th = null;
+    }
     public void destroy() {}
     // Valid mouse event listener starts
     public void mouseClicked(MouseEvent e) {
@@ -60,8 +64,9 @@ public class BallApplet extends Applet implements Runnable, MouseListener, KeyLi
     public void keyReleased(KeyEvent e) {}
     public void keyTyped(KeyEvent e) {}
     public void run() {
+        Thread thisThread = Thread.currentThread();
         Thread.currentThread().setPriority(Thread.MIN_PRIORITY);
-        while(true) {
+        while(th == thisThread) {
             //if(x_pos>appletsize_x-radius) {
             //    x_speed=-1;
             //    bounce.play();
@@ -81,7 +86,7 @@ public class BallApplet extends Applet implements Runnable, MouseListener, KeyLi
             x_pos+=x_speed;
             repaint();
             try {
-                Thread.sleep(20);
+                thisThread.sleep(20);
             }
             catch(InterruptedException ex) {
                 // do nothing
